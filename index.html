@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lanco | Descubre lo Auténtico</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary: #145434;       /* Verde oscuro natural */
+            --primary-light: #4a8c7a; /* Verde musgo */
+            --secondary: #a67c52;     /* Marrón tierra */
+            --accent: #e0a33c;        /* Ámbar dorado */
+            --dark: #1a2421;          /* Verde oscuro casi negro */
+            --light: #f9f7f5;         /* Beige claro */
+            --text: #2d3b38;          /* Verde grisáceo para texto */
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            overflow-x: hidden;
+            color: var(--text);
+            background-color: var(--light);
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            z-index: 1000;
+            transition: all 0.4s ease;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+        }
+
+        .navbar-logo {
+            height: 48px;
+        }
+
+        .navbar-menu {
+            display: flex;
+            list-style: none;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .navbar-menu a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            opacity: 0.85;
+        }
+
+        .navbar-menu a:hover, 
+        .navbar-menu a.active {
+            color: var(--primary);
+            opacity: 1;
+        }
+
+        .navbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .language-btn {
+            background: transparent;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            color: var(--dark);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .language-btn:hover {
+            background: rgba(0, 0, 0, 0.03);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding-bottom: 3rem;
+        }
+
+        /* Modern Carousel */
+        .carousel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .carousel-track {
+            display: flex;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 400%; /* 4 veces el ancho para 4 imágenes */
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+
+        .carousel-slide {
+            width: 25%; /* 100% / 4 imágenes */
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .carousel-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.7) 0%,
+                rgba(0, 0, 0, 0.3) 50%,
+                rgba(0, 0, 0, 0.1) 100%
+            );
+        }
+
+        /* Carousel Controls */
+        .carousel-indicators {
+            position: absolute;
+            bottom: 22%;
+            left: 5%;
+            display: flex;
+            gap: 1rem;
+            z-index: 10;
+        }
+
+        .carousel-indicator {
+            width: 3rem;
+            height: 0.25rem;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .carousel-indicator.active {
+            background: var(--accent);
+            width: 5rem;
+        }
+
+        /* Hero Content */
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            padding: 0 5%;
+            margin-bottom: 2rem;
+            max-width: 650px;
+        }
+
+        .hero-badges {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+            letter-spacing: 0.5px;
+            gap: 0.5rem;
+        }
+
+        .hero-badge svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title span {
+            color: var(--accent);
+        }
+
+        .hero-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+        }
+
+        /* Modern Cards Section */
+        .hero-cards {
+            display: flex;
+            gap: 1.5rem;
+            padding: 0 5%;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE/Edge */
+            position: relative;
+            z-index: 10;
+            padding-bottom: 0.5rem;
+        }
+
+        .hero-cards::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hero-card {
+            flex: 0 0 208px;
+            scroll-snap-align: start;
+            background: white;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: all 0.4s ease;
+            transform-origin: center bottom;
+        }
+
+        .hero-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-img {
+            height: 120px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 0.7rem;
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .card-text {
+            font-size: 0.8rem;
+            color: rgba(0, 0, 0, 0.6);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .card-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-decoration: none;
+        }
+
+        /* Explore Button */
+        .explore-btn {
+            position: absolute;
+            bottom: 6rem;
+            right: 5%;
+            z-index: 10;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(20, 84, 52, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .explore-btn:hover {
+            background: var(--primary-light);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(20, 84, 52, 0.5);
+        }
+        .mobile-menu {
+            display: none;
+                        }
+            /* Mobile Styles */
+            @media (max-width: 992px) {
+                .hero-title {
+                    font-size: 2.8rem;
+                }
+                
+                .explore-btn {
+                    bottom: 4rem;
+                }
+            }
+
+            @media (max-width: 768px) {
+            .navbar {
+                padding: 0.8rem 1rem;
+            }
+            
+            .navbar-menu, 
+            .navbar-actions .language-btn span {
+                display: none;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .mobile-menu {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 80%;
+                height: 100vh;
+                background: white;
+                z-index: 1001;
+                display: flex;
+                flex-direction: column;
+                padding: 5rem 2rem 2rem;
+                transition: all 0.4s ease;
+                box-shadow: var(--shadow-lg);
+            }
+            
+            .mobile-menu.active {
+                left: 0;
+            }
+            
+            .mobile-menu-close {
+                position: absolute;
+                top: 1.5rem;
+                right: 1.5rem;
+                background: transparent;
+                border: none;
+                cursor: pointer;
+                font-size: 1.5rem;
+            }
+            
+            .mobile-menu-items {
+                list-style: none;
+            }
+            
+            .mobile-menu-items li {
+                margin-bottom: 1.5rem;
+            }
+            
+            .mobile-menu-items a {
+                font-size: 1.2rem;
+                color: var(--dark);
+                text-decoration: none;
+                font-weight: 500;
+                display: block;
+                padding: 0.5rem 0;
+            }
+            
+            .mobile-menu-footer {
+                margin-top: auto;
+                padding-top: 2rem;
+                border-top: 1px solid rgba(0, 0, 0, 0.1);
+            }
+            
+            .hero-content {
+                margin-bottom: 1rem;
+            }
+            
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .hero-text {
+                font-size: 1rem;
+            }
+            
+            .hero-cards {
+                padding: 0 1rem;
+            }
+            
+            .hero-card {
+                flex: 0 0 244px;
+                border-radius: var(--radius-sm);
+            }
+            
+            .explore-btn {
+                position: relative;
+                left: 5%;
+                bottom: 0;
+                margin-top: 2rem;
+                width: 90%;
+                justify-content: center;
+            }
+            
+            .carousel-indicators {
+                bottom: auto;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-left">
+            <img src="img/logo/vivelanco-logo.svg" alt="Lanco" class="navbar-logo">
+            <ul class="navbar-menu">
+                <li><a href="#" class="active">Inicio</a></li>
+                <li><a href="#">Explorar</a></li>
+                <li><a href="#">Experiencias</a></li>
+                <li><a href="#">Descubrir</a></li>
+            </ul>
+        </div>
+        <div class="navbar-actions">
+            <button class="language-btn">
+                <span>ES</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+            </button>
+            <button class="menu-toggle">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <button class="mobile-menu-close">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+        <ul class="mobile-menu-items">
+            <li><a href="#">Inicio</a></li>
+            <li><a href="#">Explorar</a></li>
+            <li><a href="#">Experiencias</a></li>
+            <li><a href="#">Descubrir</a></li>
+            <li><a href="#">Historia</a></li>
+            <li><a href="#">Contacto</a></li>
+        </ul>
+        <div class="mobile-menu-footer">
+            <button class="language-btn">
+                <span>Español</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="carousel">
+            <div class="carousel-track">
+                <div class="carousel-slide">
+                    <img src="img/DJI_0279.JPG" alt="Lanco Naturaleza" class="carousel-img">
+                </div>
+                <div class="carousel-slide">
+                    <img src="img/DJI_0007.JPG" alt="Lanco Cultura" class="carousel-img">
+                </div>
+                <div class="carousel-slide">
+                    <img src="img/DSC03318-HDR.jpg" alt="Lanco Gastronomía" class="carousel-img">
+                </div>
+
+                <div class="carousel-slide">
+                    <img src="img/DJI_0454.JPG" alt="Lanco Aventura" class="carousel-img">
+                </div>
+            </div>
+            <div class="carousel-overlay"></div>
+        </div>
+        
+        <div class="carousel-indicators">
+            <div class="carousel-indicator active" data-index="0"></div>
+            <div class="carousel-indicator" data-index="1"></div>
+            <div class="carousel-indicator" data-index="2"></div>
+            <div class="carousel-indicator" data-index="3"></div>
+        </div>
+        
+        <div class="hero-content">
+            <div class="hero-badges">
+                <div class="hero-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    SUR DE CHILE
+                </div>
+                <div class="hero-badge">REGIÓN DE LOS RÍOS</div>
+            </div>
+            <h1 class="hero-title">Descubre <span>Lanco</span>, donde la magia natural cobra vida</h1>
+            <p class="hero-text">Un paraíso escondido que cautiva tus sentidos. Cascadas cristalinas, bosques ancestrales y tradiciones que te transportan a otro tiempo.</p>
+        </div>
+        
+        <div class="hero-cards">
+            <div class="hero-card">
+                <img src="img/01.jpg" alt="Salto Hueima" class="card-img">
+                <div class="card-content">
+                    <h3 class="card-title">Salto Hueima</h3>
+                    <p class="card-text">Impresionante caída de agua en medio del bosque lanquino, perfecta para conectar con la naturaleza.</p>
+                    <a href="#" class="card-link">
+                        Visitar
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14"></path>
+                            <path d="M12 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="hero-card">
+                <img src="img/02.jpg" alt="Cultura Mapuche" class="card-img">
+                <div class="card-content">
+                    <h3 class="card-title">Raíces Mapuche</h3>
+                    <p class="card-text">Vive una experiencia auténtica y conoce las tradiciones ancestrales que dan identidad a nuestra tierra.</p>
+                    <a href="#" class="card-link">
+                        Descubrir
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14"></path>
+                            <path d="M12 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="hero-card">
+                <img src="img/03.jpg" alt="Gastronomía Local" class="card-img">
+                <div class="card-content">
+                    <h3 class="card-title">Sabores Auténticos</h3>
+                    <p class="card-text">Deléitate con la gastronomía local que fusiona ingredientes nativos con técnicas tradicionales chilenas.</p>
+                    <a href="#" class="card-link">
+                        Probar
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14"></path>
+                            <path d="M12 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="hero-card">
+                <img src="img/04.jpg" alt="Aventuras en Lanco" class="card-img">
+                <div class="card-content">
+                    <h3 class="card-title">Aventura Natural</h3>
+                    <p class="card-text">Senderos, kayak y ciclismo en entornos naturales impresionantes para los amantes de la adrenalina.</p>
+                    <a href="#" class="card-link">
+                        Explorar
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14"></path>
+                            <path d="M12 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <button class="explore-btn">
+            Descubrir Lanco
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 18l6-6-6-6"></path>
+            </svg>
+        </button>
+    </section>
+
+    <script>
+        // Variables para el carrusel
+        const track = document.querySelector('.carousel-track');
+        const indicators = document.querySelectorAll('.carousel-indicator');
+        let currentIndex = 0;
+        
+        // Cambiar slide según el índice
+        function goToSlide(index) {
+            currentIndex = index;
+            track.style.transform = `translateX(-${index * 25}%)`;
+            
+            // Actualizar indicadores
+            indicators.forEach((indicator, i) => {
+                indicator.classList.toggle('active', i === index);
+            });
+        }
+        
+        // Configurar eventos para los indicadores
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                goToSlide(index);
+                resetInterval();
+            });
+        });
+        
+        // Avanzar al siguiente slide
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % 4;
+            goToSlide(currentIndex);
+        }
+        
+        // Iniciar intervalo para cambio automático
+        let slideInterval = setInterval(nextSlide, 5000);
+        
+        // Reiniciar intervalo cuando el usuario interactúa con el carrusel
+        function resetInterval() {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 5000);
+        }
+        
+        // Menú móvil
+        const menuToggle = document.querySelector('.menu-toggle');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const closeBtn = document.querySelector('.mobile-menu-close');
+        
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.add('active');
+        });
+        
+        closeBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+        });
+        
+        // Navbar efecto al hacer scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 20) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
