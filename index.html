@@ -534,7 +534,7 @@
         <div class="carousel">
             <div class="carousel-track">
                 <div class="carousel-slide">
-                    <img src="img/DJI_0279.jpg" alt="Lanco Naturaleza" class="carousel-img">
+                    <img src="img/DJI_0279.JPG" alt="Lanco Naturaleza" class="carousel-img">
                 </div>
                 <div class="carousel-slide">
                     <img src="img/DJI_0007.JPG" alt="Lanco Cultura" class="carousel-img">
@@ -642,207 +642,1075 @@
         </button>
     </section>
 
-      <style>
-        :root {
-          --verde: #81c784;
-          --cafe: #a1887f;
-          --celeste: #4fc3f7;
-          --rosa: #f06292;
-          --fondo: #f1f8e9;
-          --texto: #333;
-          --gris: #e0e0e0;
-        }
-        body {
-          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-          margin: 0;
-          background: var(--fondo);
-          color: var(--texto);
-        }
-        .section {
-          padding: 2rem 1rem;
-          text-align: center;
-        }
-        h2 {
-          color: var(--verde);
-          margin-bottom: 2rem;
-        }
-        .chart-container {
-          max-width: 500px;
-          margin: 0 auto 2rem auto;
-          background-color: #fff;
-          padding: 1.5rem;
-          border-radius: 1rem;
-          box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-          position: relative;
-        }
-        .chart-percentage {
-          position: absolute;
-          top: 10px;
-          right: 10px;
-          font-size: 0.9rem;
-          color: var(--texto);
-          background: var(--gris);
-          padding: 0.2rem 0.5rem;
-          border-radius: 5px;
-        }
-        @media (min-width: 600px) {
-          #piramideChart {
-            height: 600px !important;
-          }
-        }
-      </style>
 
-      <section class="section">
-        <h2>Datos Demográficos <br> Lanco, Región de Los Ríos</h2>
-    
-        <div class="chart-container">
-            <p>Población por sexo</p>
 
-          <div class="chart-percentage">Hombres: 48.2% | Mujeres: 51.8%</div>
-          <canvas id="sexoChart"></canvas>
+    <!-- Sección de Mapa Interactivo -->
+<section class="map-section">
+    <div class="map-container">
+        <h2>Explora Lanco en el Mapa</h2>
+        <div class="map-controls">
+            <div class="categories">
+                <button class="category-btn active" data-category="all">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="10" r="3"></circle>
+                        <path d="M12 2a8 8 0 0 0-8 8c0 1.892.402 3.13 1.5 4.5L12 22l6.5-7.5c1.098-1.37 1.5-2.608 1.5-4.5a8 8 0 0 0-8-8z"></path>
+                    </svg>
+                    Todos
+                </button>
+                <button class="category-btn" data-category="food">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+                        <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+                        <line x1="6" y1="1" x2="6" y2="4"></line>
+                        <line x1="10" y1="1" x2="10" y2="4"></line>
+                        <line x1="14" y1="1" x2="14" y2="4"></line>
+                    </svg>
+                    Comida
+                </button>
+                <button class="category-btn" data-category="drinks">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10 2v16"></path>
+                        <path d="M14 2v16"></path>
+                        <path d="M8 22h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v18a2 2 0 0 0 2 2z"></path>
+                    </svg>
+                    Bares
+                </button>
+                <button class="category-btn" data-category="tourism">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                    Turismo
+                </button>
+            </div>
+            <div class="search-box">
+                <input type="text" placeholder="Buscar lugares...">
+                <button>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
+            </div>
         </div>
-    
-        <div class="chart-container">
-            <p>Tramo edad </p>
-
-          <div class="chart-percentage">0-14: 18.1% | 15-64: 65.7% | 65+: 16.1%</div>
-          <canvas id="edadChart"></canvas>
-
+        
+        <div class="map-content">
+            <div class="map-wrapper">
+                <!-- Este div contendrá el mapa de Leaflet -->
+                <div id="lanco-map"></div>
+            </div>
+            <div class="places-list">
+                <h3>Lugares destacados</h3>
+                <div class="list-container">
+                    <!-- Los lugares se cargarán dinámicamente aquí -->
+                </div>
+            </div>
         </div>
-    
-        <div class="chart-container" style="max-width: 100%;">
-            <p>Piramide poblacional</p>
+    </div>
+</section>
 
-          <canvas id="piramideChart" style="height: 100%; max-height: 600px;"></canvas>
-
-        </div>
-      </section>
+<style>
+    /* Estilos para la sección del mapa */
+    .map-section {
+        padding: 2rem 1rem;
+        background-color: #f8f9fa;
+    }
     
-      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-      <script>
-        // Sexo
-        new Chart(document.getElementById('sexoChart'), {
-          type: 'doughnut',
-          data: {
-            labels: ['Hombres', 'Mujeres'],
-            datasets: [{
-              data: [8133, 8743],
-              backgroundColor: ['#4fc3f7', '#f06292']
-            }]
-          },
-          options: {
-            responsive: true,
-            plugins: {
-              legend: {
-                position: 'bottom',
-                labels: { color: '#333' }
-              },
-              tooltip: {
-                callbacks: {
-                  label: function(ctx) {
-                    let total = ctx.dataset.data.reduce((a, b) => a + b, 0);
-                    let value = ctx.raw;
-                    let percentage = (value / total * 100).toFixed(1);
-                    return `${ctx.label}: ${value} (${percentage}%)`;
-                  }
-                }
-              }
+    .map-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .map-container h2 {
+        text-align: center;
+        margin-bottom: 1.5rem;
+        color: var(--primary);
+        font-size: 1.8rem;
+    }
+    
+    .map-controls {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .categories {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: center;
+    }
+    
+    .category-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 50px;
+        background-color: white;
+        color: var(--text);
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: var(--shadow-sm);
+    }
+    
+    .category-btn.active {
+        background-color: var(--primary);
+        color: white;
+    }
+    
+    .category-btn:hover:not(.active) {
+        background-color: var(--light);
+    }
+    
+    .search-box {
+        position: relative;
+        max-width: 500px;
+        margin: 0 auto;
+        width: 100%;
+    }
+    
+    .search-box input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        padding-right: 3rem;
+        border: 1px solid #ddd;
+        border-radius: 50px;
+        font-size: 1rem;
+        outline: none;
+        transition: all 0.3s ease;
+    }
+    
+    .search-box input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(20, 84, 52, 0.1);
+    }
+    
+    .search-box button {
+        position: absolute;
+        right: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        color: var(--text);
+    }
+    
+    .map-content {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        background: white;
+        border-radius: var(--radius-md);
+        overflow: hidden;
+        box-shadow: var(--shadow-md);
+    }
+    
+    .map-wrapper {
+        height: 400px;
+        width: 100%;
+    }
+    
+    #lanco-map {
+        height: 100%;
+        width: 100%;
+    }
+    
+    .places-list {
+        padding: 1rem;
+    }
+    
+    .places-list h3 {
+        margin-bottom: 1rem;
+        color: var(--primary);
+    }
+    
+    .list-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1rem;
+    }
+    
+    .place-card {
+        display: flex;
+        gap: 1rem;
+        padding: 1rem;
+        border-radius: var(--radius-sm);
+        background: white;
+        box-shadow: var(--shadow-sm);
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .place-card:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-md);
+    }
+    
+    .place-image {
+        width: 80px;
+        height: 80px;
+        border-radius: var(--radius-sm);
+        object-fit: cover;
+    }
+    
+    .place-info {
+        flex: 1;
+    }
+    
+    .place-name {
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+        color: var(--dark);
+    }
+    
+    .place-category {
+        display: inline-block;
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 50px;
+        margin-bottom: 0.5rem;
+    }
+    
+    .place-category.food {
+        background-color: #e3f2fd;
+        color: #1976d2;
+    }
+    
+    .place-category.drinks {
+        background-color: #f3e5f5;
+        color: #8e24aa;
+    }
+    
+    .place-category.tourism {
+        background-color: #e8f5e9;
+        color: #388e3c;
+    }
+    
+    .place-distance {
+        font-size: 0.85rem;
+        color: #666;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+    
+    /* Estilos para móviles */
+    @media (max-width: 768px) {
+        .map-controls {
+            flex-direction: column;
+        }
+        
+        .categories {
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            justify-content: flex-start;
+        }
+        
+        .map-content {
+            flex-direction: column;
+        }
+        
+        .map-wrapper {
+            height: 300px;
+        }
+        
+        .list-container {
+            grid-template-columns: 1fr;
+        }
+    }
+    
+    @media (min-width: 992px) {
+        .map-content {
+            flex-direction: row;
+        }
+        
+        .map-wrapper {
+            flex: 2;
+        }
+        
+        .places-list {
+            flex: 1;
+            min-width: 350px;
+            padding: 1.5rem;
+        }
+    }
+</style>
+
+<!-- Leaflet CSS y JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+<script>
+    // Datos de ejemplo para los lugares
+    const places = [
+        {
+            id: 1,
+            name: "Restaurante Tierra Verde",
+            category: "food",
+            lat: -39.4524,
+            lng: -72.7921,
+            distance: "0.5 km",
+            description: "Cocina tradicional con ingredientes locales",
+            image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+        },
+        {
+            id: 2,
+            name: "Cascada Hueima",
+            category: "tourism",
+            lat: -39.4582,
+            lng: -72.8013,
+            distance: "2.3 km",
+            description: "Hermosa cascada en medio del bosque",
+            image: "https://images.unsplash.com/photo-1509316785289-025f5b846b35?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+        },
+        {
+            id: 3,
+            name: "Bar Los Ríos",
+            category: "drinks",
+            lat: -39.4508,
+            lng: -72.7895,
+            distance: "0.2 km",
+            description: "Bar con cervezas artesanales locales",
+            image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+        },
+        {
+            id: 4,
+            name: "Mercado Artesanal",
+            category: "tourism",
+            lat: -39.4512,
+            lng: -72.7901,
+            distance: "0.3 km",
+            description: "Artesanías y productos locales",
+            image: "https://images.unsplash.com/photo-1581349485608-9469926a8e5e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+        },
+        {
+            id: 5,
+            name: "Café del Bosque",
+            category: "food",
+            lat: -39.4537,
+            lng: -72.7952,
+            distance: "1.1 km",
+            description: "Café con vista al bosque",
+            image: "https://images.unsplash.com/photo-1445116572660-236099ec97a0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+        },
+        {
+            id: 6,
+            name: "Mirador Lanco",
+            category: "tourism",
+            lat: -39.4569,
+            lng: -72.7864,
+            distance: "1.5 km",
+            description: "Vista panorámica de la ciudad",
+            image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+        }
+    ];
+
+    // Inicializar el mapa
+    function initMap() {
+        // Coordenadas aproximadas de Lanco
+        const lancoCoords = [-39.4525, -72.7925];
+        
+        // Crear el mapa
+        const map = L.map('lanco-map').setView(lancoCoords, 14);
+        
+        // Añadir capa de OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        
+        // Añadir marcadores para cada lugar
+        places.forEach(place => {
+            const marker = L.marker([place.lat, place.lng]).addTo(map);
+            
+            // Personalizar icono según categoría
+            let iconColor;
+            switch(place.category) {
+                case 'food': iconColor = '#4CAF50'; break;
+                case 'drinks': iconColor = '#9C27B0'; break;
+                case 'tourism': iconColor = '#2196F3'; break;
+                default: iconColor = '#FF9800';
             }
-          }
+            
+            // Crear icono personalizado
+            const customIcon = L.divIcon({
+                className: 'custom-marker',
+                html: `<div style="background-color: ${iconColor}"></div>`,
+                iconSize: [20, 20],
+                iconAnchor: [10, 10]
+            });
+            
+            marker.setIcon(customIcon);
+            
+            // Añadir popup al marcador
+            marker.bindPopup(`
+                <div style="min-width: 200px;">
+                    <h3 style="margin: 0 0 5px 0; color: #333;">${place.name}</h3>
+                    <p style="margin: 0 0 5px 0; color: #666;">${place.description}</p>
+                    <p style="margin: 0; font-size: 0.9em; color: #888;">Distancia: ${place.distance}</p>
+                </div>
+            `);
+            
+            // Evento click para centrar el mapa y abrir popup
+            marker.on('click', function() {
+                map.setView([place.lat, place.lng], 15);
+                highlightPlaceCard(place.id);
+            });
         });
+        
+        return map;
+    }
     
-        // Tramos de edad
-        new Chart(document.getElementById('edadChart'), {
-          type: 'doughnut',
-          data: {
-            labels: ['0 a 14 años', '15 a 64 años', '65 años o más'],
-            datasets: [{
-              data: [3060, 11093, 2723],
-              backgroundColor: ['#ffca28', '#4caf50', '#8d6e63']
-            }]
-          },
-          options: {
-            responsive: true,
-            plugins: {
-              legend: {
-                position: 'bottom',
-                labels: { color: '#333' }
-              },
-              tooltip: {
-                callbacks: {
-                  label: function(ctx) {
-                    let total = ctx.dataset.data.reduce((a, b) => a + b, 0);
-                    let value = ctx.raw;
-                    let percentage = (value / total * 100).toFixed(1);
-                    return `${ctx.label}: ${value} (${percentage}%)`;
-                  }
-                }
-              }
+    // Cargar lugares en la lista
+    function loadPlaces(category = 'all') {
+        const listContainer = document.querySelector('.list-container');
+        listContainer.innerHTML = '';
+        
+        const filteredPlaces = category === 'all' 
+            ? places 
+            : places.filter(place => place.category === category);
+        
+        filteredPlaces.forEach(place => {
+            const placeCard = document.createElement('div');
+            placeCard.className = 'place-card';
+            placeCard.dataset.id = place.id;
+            
+            let categoryClass, categoryText;
+            switch(place.category) {
+                case 'food': 
+                    categoryClass = 'food';
+                    categoryText = 'Comida';
+                    break;
+                case 'drinks': 
+                    categoryClass = 'drinks';
+                    categoryText = 'Bares';
+                    break;
+                case 'tourism': 
+                    categoryClass = 'tourism';
+                    categoryText = 'Turismo';
+                    break;
             }
-          }
+            
+            placeCard.innerHTML = `
+                <img src="${place.image}" alt="${place.name}" class="place-image">
+                <div class="place-info">
+                    <h4 class="place-name">${place.name}</h4>
+                    <span class="place-category ${categoryClass}">${categoryText}</span>
+                    <p class="place-distance">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        ${place.distance}
+                    </p>
+                </div>
+            `;
+            
+            placeCard.addEventListener('click', function() {
+                const placeId = parseInt(this.dataset.id);
+                const place = places.find(p => p.id === placeId);
+                if (place) {
+                    // Centrar mapa en el lugar seleccionado
+                    map.setView([place.lat, place.lng], 16);
+                    
+                    // Abrir popup del marcador (necesitaríamos una referencia a los marcadores)
+                    highlightPlaceCard(placeId);
+                }
+            });
+            
+            listContainer.appendChild(placeCard);
         });
+    }
     
-        // Pirámide poblacional
-        const edades = [
-          '85+', '80-84', '75-79', '70-74', '65-69', '60-64',
-          '55-59', '50-54', '45-49', '40-44', '35-39', '30-34',
-          '25-29', '20-24', '15-19', '10-14', '05-09', '00-04'
-        ];
-        const hombres = [124, 135, 229, 334, 419, 521, 563, 518, 483, 479, 513, 545, 542, 569, 626, 600, 550, 383];
-        const mujeres = [203, 212, 259, 345, 463, 598, 632, 568, 521, 580, 580, 615, 577, 535, 528, 605, 530, 392];
+    // Resaltar tarjeta de lugar
+    function highlightPlaceCard(placeId) {
+        document.querySelectorAll('.place-card').forEach(card => {
+            if (parseInt(card.dataset.id) === placeId) {
+                card.style.backgroundColor = 'rgba(20, 84, 52, 0.1)';
+                card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            } else {
+                card.style.backgroundColor = '';
+            }
+        });
+    }
     
-        new Chart(document.getElementById('piramideChart'), {
-          type: 'bar',
-          data: {
-            labels: edades,
+    // Inicializar cuando el DOM esté listo
+    document.addEventListener('DOMContentLoaded', function() {
+        const map = initMap();
+        loadPlaces();
+        
+        // Manejar clicks en botones de categoría
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                const category = this.dataset.category;
+                loadPlaces(category);
+            });
+        });
+        
+        // Manejar búsqueda
+        const searchInput = document.querySelector('.search-box input');
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const filteredPlaces = places.filter(place => 
+                place.name.toLowerCase().includes(searchTerm) || 
+                place.description.toLowerCase().includes(searchTerm)
+            );
+            
+            const activeCategory = document.querySelector('.category-btn.active').dataset.category;
+            loadPlaces(activeCategory);
+            
+            if (searchTerm) {
+                document.querySelectorAll('.place-card').forEach(card => {
+                    const placeId = parseInt(card.dataset.id);
+                    const place = places.find(p => p.id === placeId);
+                    if (!place.name.toLowerCase().includes(searchTerm) && 
+                        !place.description.toLowerCase().includes(searchTerm)) {
+                        card.style.display = 'none';
+                    } else {
+                        card.style.display = 'flex';
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+
+<style>
+    /* Estilos para la sección demográfica */
+    .demographics-section {
+        padding: 3rem 1rem;
+        background-color: var(--light);
+    }
+    
+    .section-header {
+        text-align: center;
+        margin-bottom: 2.5rem;
+    }
+    
+    .section-header h2 {
+        font-size: 2rem;
+        color: var(--primary);
+        margin-bottom: 0.5rem;
+    }
+    
+    .section-header p {
+        color: var(--text);
+        opacity: 0.8;
+        font-size: 1.1rem;
+    }
+    
+    .demographics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .demographic-card {
+        background: white;
+        border-radius: var(--radius-md);
+        padding: 1.5rem;
+        box-shadow: var(--shadow-sm);
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .demographic-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-md);
+    }
+    
+    .demographic-card.highlight {
+        border-top: 4px solid var(--accent);
+    }
+    
+    .demographic-card.wide {
+        grid-column: span 2;
+    }
+    
+    .card-icon {
+        width: 60px;
+        height: 60px;
+        background: rgba(20, 84, 52, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+        color: var(--primary);
+    }
+    
+    .demographic-card.highlight .card-icon {
+        background: rgba(224, 163, 60, 0.1);
+        color: var(--accent);
+    }
+    
+    .card-content h3 {
+        font-size: 1.1rem;
+        color: var(--dark);
+        margin-bottom: 0.75rem;
+    }
+    
+    .card-value {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 0.5rem;
+    }
+    
+    .card-value span {
+        font-size: 1rem;
+        font-weight: 400;
+        color: var(--text);
+        opacity: 0.7;
+    }
+    
+    .demographic-card.highlight .card-value {
+        color: var(--accent);
+    }
+    
+    .card-trend {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.85rem;
+        color: var(--text);
+        opacity: 0.8;
+    }
+    
+    .age-pyramid-mini {
+        display: flex;
+        height: 8px;
+        border-radius: 4px;
+        overflow: hidden;
+        margin: 1rem 0;
+        background: rgba(0, 0, 0, 0.05);
+    }
+    
+    .pyramid-bar {
+        height: 100%;
+    }
+    
+    .pyramid-bar.male {
+        background: var(--primary-light);
+    }
+    
+    .pyramid-bar.female {
+        background: var(--accent);
+    }
+    
+    .card-comparison {
+        font-size: 0.85rem;
+        color: var(--text);
+        opacity: 0.8;
+    }
+    
+    .sex-distribution {
+        margin-top: 1rem;
+    }
+    
+    .sex {
+        margin-bottom: 0.75rem;
+    }
+    
+    .sex-percentage {
+        font-weight: 600;
+        color: var(--dark);
+    }
+    
+    .sex.male .sex-percentage {
+        color: var(--primary-light);
+    }
+    
+    .sex.female .sex-percentage {
+        color: var(--accent);
+    }
+    
+    .sex-label {
+        font-size: 0.85rem;
+        color: var(--text);
+        opacity: 0.7;
+        margin-bottom: 0.25rem;
+    }
+    
+    .sex-bar {
+        height: 6px;
+        border-radius: 3px;
+    }
+    
+    .sex.male .sex-bar {
+        background: var(--primary-light);
+    }
+    
+    .sex.female .sex-bar {
+        background: var(--accent);
+    }
+    
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+    
+    .card-legend {
+        display: flex;
+        gap: 1rem;
+    }
+    
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.85rem;
+    }
+    
+    .legend-color {
+        width: 12px;
+        height: 12px;
+        border-radius: 2px;
+    }
+    
+    .legend-color.male {
+        background: var(--primary-light);
+    }
+    
+    .legend-color.female {
+        background: var(--accent);
+    }
+    
+    .pyramid-chart {
+        height: 300px;
+        width: 100%;
+    }
+    
+    .age-distribution-chart {
+        height: 120px;
+        margin: 1rem 0;
+    }
+    
+    .age-stats {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1rem;
+    }
+    
+    .age-stat {
+        text-align: center;
+    }
+    
+    .stat-value {
+        font-weight: 600;
+        color: var(--primary);
+    }
+    
+    .stat-label {
+        font-size: 0.85rem;
+        color: var(--text);
+        opacity: 0.7;
+    }
+    
+    .density-comparison {
+        margin-top: 1rem;
+    }
+    
+    .density-scale {
+        height: 6px;
+        background: linear-gradient(to right, #e0f2f1, #4db6ac, #00695c);
+        border-radius: 3px;
+        margin-bottom: 0.5rem;
+        position: relative;
+    }
+    
+    .scale-bar {
+        height: 100%;
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: 3px;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+    
+    .density-labels {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.75rem;
+        color: var(--text);
+        opacity: 0.7;
+    }
+    
+    /* Estilos responsivos */
+    @media (max-width: 768px) {
+        .demographics-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .demographic-card.wide {
+            grid-column: span 1;
+        }
+        
+        .section-header h2 {
+            font-size: 1.8rem;
+        }
+        
+        .card-value {
+            font-size: 1.8rem;
+        }
+    }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Sección Demográfica Mejorada -->
+<section class="demographics-section">
+    <div class="section-header">
+        <h2>Perfil Demográfico de Lanco</h2>
+        <p>Datos que revelan la identidad de nuestra comunidad</p>
+    </div>
+    
+    <div class="demographics-grid">
+        <!-- Tarjeta de Población Total -->
+        <div class="demographic-card">
+            <div class="card-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+            </div>
+            <div class="card-content">
+                <h3>Población Total</h3>
+                <div class="card-value">16,876</div>
+
+            </div>
+        </div>
+        
+        <!-- Tarjeta de Edad Promedio -->
+        <div class="demographic-card highlight">
+            <div class="card-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 12h18M12 3v18m-5.5-3.5l11-11m0 11l-11-11"></path>
+                </svg>
+            </div>
+            <div class="card-content">
+                <h3>Edad Promedio</h3>
+                <div class="card-value">39.4 <span>años</span></div>
+                <div class="age-pyramid-mini">
+                    <div class="pyramid-bar male" style="width: 45%;"></div>
+                    <div class="pyramid-bar female" style="width: 55%;"></div>
+                </div>
+
+            </div>
+        </div>
+        
+        <!-- Tarjeta de Distribución por Sexo -->
+        <div class="demographic-card">
+            <div class="card-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="8" r="5"></circle>
+                    <path d="M20 21a8 8 0 0 0-16 0"></path>
+                </svg>
+            </div>
+            <div class="card-content">
+                <h3>Distribución por Sexo</h3>
+                <div class="sex-distribution">
+
+                    <div class="sex female">
+                        <div class="sex-percentage">51.8%</div>
+                        <div class="sex-label">Mujeres</div>
+                        <div class="sex-bar" style="width: 51.8%;"></div>
+                    </div>
+                    <div class="sex male">
+                        <div class="sex-percentage">48.2%</div>
+                        <div class="sex-label">Hombres</div>
+                        <div class="sex-bar" style="width: 48.2%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tarjeta de Pirámide Poblacional -->
+        <div class="demographic-card wide">
+            <div class="card-header">
+                <h3>Pirámide Poblacional</h3>
+                <div class="card-legend">
+                    <div class="legend-item">
+                        <div class="legend-color male"></div>
+                        <span>Hombres</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color female"></div>
+                        <span>Mujeres</span>
+                    </div>
+                </div>
+            </div>
+            <div class="pyramid-chart">
+                <canvas id="modernPyramidChart"></canvas>
+            </div>
+        </div>
+        
+        <!-- Tarjeta de Distribución por Edad -->
+        <div class="demographic-card">
+            <div class="card-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M12 6v6l4 2"></path>
+                </svg>
+            </div>
+            <div class="card-content">
+                <h3>Distribución por Edad</h3>
+                <div class="age-distribution-chart">
+                    <canvas id="ageDistributionChart"></canvas>
+                </div>
+                <div class="age-stats">
+                    <div class="age-stat">
+                        <div class="stat-value">18.1%</div>
+                        <div class="stat-label">0-14 años</div>
+                    </div>
+                    <div class="age-stat">
+                        <div class="stat-value">65.7%</div>
+                        <div class="stat-label">15-64 años</div>
+                    </div>
+                    <div class="age-stat">
+                        <div class="stat-value">16.1%</div>
+                        <div class="stat-label">65+ años</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+       
+    </div>
+</section>
+
+
+<script>
+    // Datos para la pirámide poblacional mejorada
+    const pyramidData = {
+        labels: ['85+', '80-84', '75-79', '70-74', '65-69', '60-64', '55-59', '50-54', '45-49', '40-44', '35-39', '30-34', '25-29', '20-24', '15-19', '10-14', '5-9', '0-4'],
+        male: [124, 135, 229, 334, 419, 521, 563, 518, 483, 479, 513, 545, 542, 569, 626, 600, 550, 383],
+        female: [203, 212, 259, 345, 463, 598, 632, 568, 521, 580, 580, 615, 577, 535, 528, 605, 530, 392]
+    };
+
+    // Configuración del gráfico de pirámide mejorado
+    const pyramidCtx = document.getElementById('modernPyramidChart').getContext('2d');
+    
+    new Chart(pyramidCtx, {
+        type: 'bar',
+        data: {
+            labels: pyramidData.labels,
             datasets: [
-              {
-                label: 'Hombres',
-                data: hombres.map(v => -v),
-                backgroundColor: '#4fc3f7'
-              },
-              {
-                label: 'Mujeres',
-                data: mujeres,
-                backgroundColor: '#f06292'
-              }
+                {
+                    label: 'Hombres',
+                    data: pyramidData.male.map(v => -v),
+                    backgroundColor: 'rgba(74, 140, 122, 0.8)',
+                    borderColor: 'rgba(74, 140, 122, 1)',
+                    borderWidth: 1,
+                    borderRadius: 4
+                },
+                {
+                    label: 'Mujeres',
+                    data: pyramidData.female,
+                    backgroundColor: 'rgba(224, 163, 60, 0.8)',
+                    borderColor: 'rgba(224, 163, 60, 1)',
+                    borderWidth: 1,
+                    borderRadius: 4
+                }
             ]
-          },
-          options: {
+        },
+        options: {
             indexAxis: 'y',
             responsive: true,
             maintainAspectRatio: false,
-            scales: {
-              x: {
-                stacked: true,
-                ticks: {
-                  color: '#333',
-                  callback: value => Math.abs(value)
-                },
-                grid: { color: '#ccc' }
-              },
-              y: {
-                stacked: true,
-                ticks: { color: '#333' },
-                grid: { color: '#ccc' }
-              }
-            },
             plugins: {
-              legend: {
-                position: 'bottom',
-                labels: { color: '#333' }
-              },
-              tooltip: {
-                callbacks: {
-                  label: ctx => `${ctx.dataset.label}: ${Math.abs(ctx.raw).toLocaleString()}`
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        usePointStyle: true,
+                        padding: 20
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `${context.dataset.label}: ${Math.abs(context.raw)}`;
+                        }
+                    }
                 }
-              }
+            },
+            scales: {
+                x: {
+                    stacked: true,
+                    ticks: {
+                        callback: function(value) {
+                            return Math.abs(value);
+                        }
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    }
+                },
+                y: {
+                    stacked: true,
+                    grid: {
+                        display: false
+                    }
+                }
             }
-          }
-        });
-      </script>
+        }
+    });
+
+    // Gráfico de distribución por edad (doughnut mejorado)
+    const ageCtx = document.getElementById('ageDistributionChart').getContext('2d');
+    
+    new Chart(ageCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['0-14 años', '15-64 años', '65+ años'],
+            datasets: [{
+                data: [3060, 11093, 2723],
+                backgroundColor: [
+                    'rgba(255, 202, 40, 0.8)',
+                    'rgba(76, 175, 80, 0.8)',
+                    'rgba(141, 110, 99, 0.8)'
+                ],
+                borderColor: [
+                    'rgba(255, 202, 40, 1)',
+                    'rgba(76, 175, 80, 1)',
+                    'rgba(141, 110, 99, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '70%',
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            elements: {
+                arc: {
+                    borderRadius: 4
+                }
+            }
+        }
+    });
+</script>
+    
 
     
+
     <script>
         // Variables para el carrusel
         const track = document.querySelector('.carousel-track');
@@ -906,5 +1774,238 @@
             }
         });
     </script>
+
+
+
+<!-- Footer -->
+<footer class="main-footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <img src="img/logo/vivelanco-logo.svg" alt="Lanco" class="footer-logo">
+            <p class="footer-description">Descubre la auténtica belleza del sur de Chile en Lanco, donde la naturaleza y la cultura se entrelazan.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                    </svg>
+                </a>
+                <a href="#" aria-label="Instagram">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                    </svg>
+                </a>
+                <a href="#" aria-label="Twitter">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+        
+        <div class="footer-section">
+            <h4>Explorar</h4>
+            <ul class="footer-links">
+                <li><a href="#">Atracciones turísticas</a></li>
+                <li><a href="#">Gastronomía local</a></li>
+                <li><a href="#">Eventos culturales</a></li>
+                <li><a href="#">Rutas y senderos</a></li>
+                <li><a href="#">Alojamiento</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-section">
+            <h4>Información</h4>
+            <ul class="footer-links">
+                <li><a href="#">Sobre Lanco</a></li>
+                <li><a href="#">Historia y cultura</a></li>
+                <li><a href="#">Datos demográficos</a></li>
+                <li><a href="#">Cómo llegar</a></li>
+                <li><a href="#">Clima y temporadas</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-section">
+            <h4>Contacto</h4>
+            <ul class="footer-links">
+                <li>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    Av. Principal 123, Lanco
+                </li>
+                <li>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                    </svg>
+                    +56 9 8765 4321
+                </li>
+                <li>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                    contacto@vivelanco.cl
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <div class="footer-legal">
+            <a href="#">Términos y condiciones</a>
+            <a href="#">Política de privacidad</a>
+            <a href="#">Mapa del sitio</a>
+        </div>
+        <div class="copyright">
+            © 2023 Vive Lanco. Todos los derechos reservados.
+        </div>
+    </div>
+</footer>
+
+<style>
+/* Estilos para el Footer */
+.main-footer {
+background-color: var(--dark);
+color: white;
+padding: 3rem 1rem 0;
+}
+
+.footer-content {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+gap: 2rem;
+max-width: 1200px;
+margin: 0 auto;
+}
+
+.footer-section {
+margin-bottom: 2rem;
+}
+
+.footer-logo {
+height: 50px;
+margin-bottom: 1rem;
+}
+
+.footer-description {
+opacity: 0.8;
+line-height: 1.6;
+margin-bottom: 1.5rem;
+}
+
+.social-links {
+display: flex;
+gap: 1rem;
+}
+
+.social-links a {
+color: white;
+opacity: 0.7;
+transition: opacity 0.3s ease;
+}
+
+.social-links a:hover {
+opacity: 1;
+}
+
+.footer-section h4 {
+font-size: 1.1rem;
+margin-bottom: 1.5rem;
+color: white;
+position: relative;
+padding-bottom: 0.5rem;
+}
+
+.footer-section h4::after {
+content: '';
+position: absolute;
+left: 0;
+bottom: 0;
+width: 40px;
+height: 2px;
+background: var(--accent);
+}
+
+.footer-links {
+list-style: none;
+}
+
+.footer-links li {
+margin-bottom: 0.75rem;
+}
+
+.footer-links a, 
+.footer-links li {
+color: rgba(255, 255, 255, 0.8);
+text-decoration: none;
+transition: color 0.3s ease;
+display: flex;
+align-items: center;
+gap: 0.5rem;
+}
+
+.footer-links a:hover {
+color: white;
+}
+
+.footer-bottom {
+border-top: 1px solid rgba(255, 255, 255, 0.1);
+padding: 1.5rem 0;
+margin-top: 2rem;
+}
+
+.footer-legal {
+display: flex;
+justify-content: center;
+gap: 1.5rem;
+margin-bottom: 1rem;
+}
+
+.footer-legal a {
+color: rgba(255, 255, 255, 0.6);
+text-decoration: none;
+font-size: 0.85rem;
+transition: color 0.3s ease;
+}
+
+.footer-legal a:hover {
+color: white;
+}
+
+.copyright {
+text-align: center;
+font-size: 0.85rem;
+color: rgba(255, 255, 255, 0.6);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+.explore-filters {
+flex-direction: column;
+}
+
+.filter-group, .search-box {
+width: 100%;
+}
+
+.places-listing {
+grid-template-columns: 1fr;
+}
+
+.footer-content {
+grid-template-columns: 1fr;
+}
+
+.footer-legal {
+flex-direction: column;
+align-items: center;
+gap: 0.5rem;
+}
+}
+</style>
+
 </body>
 </html>
