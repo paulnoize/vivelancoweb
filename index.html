@@ -642,6 +642,207 @@
         </button>
     </section>
 
+      <style>
+        :root {
+          --verde: #81c784;
+          --cafe: #a1887f;
+          --celeste: #4fc3f7;
+          --rosa: #f06292;
+          --fondo: #f1f8e9;
+          --texto: #333;
+          --gris: #e0e0e0;
+        }
+        body {
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          margin: 0;
+          background: var(--fondo);
+          color: var(--texto);
+        }
+        .section {
+          padding: 2rem 1rem;
+          text-align: center;
+        }
+        h2 {
+          color: var(--verde);
+          margin-bottom: 2rem;
+        }
+        .chart-container {
+          max-width: 500px;
+          margin: 0 auto 2rem auto;
+          background-color: #fff;
+          padding: 1.5rem;
+          border-radius: 1rem;
+          box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+          position: relative;
+        }
+        .chart-percentage {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          font-size: 0.9rem;
+          color: var(--texto);
+          background: var(--gris);
+          padding: 0.2rem 0.5rem;
+          border-radius: 5px;
+        }
+        @media (min-width: 600px) {
+          #piramideChart {
+            height: 600px !important;
+          }
+        }
+      </style>
+
+      <section class="section">
+        <h2>Datos Demográficos <br> Lanco, Región de Los Ríos</h2>
+    
+        <div class="chart-container">
+            <p>Población por sexo</p>
+
+          <div class="chart-percentage">Hombres: 48.2% | Mujeres: 51.8%</div>
+          <canvas id="sexoChart"></canvas>
+        </div>
+    
+        <div class="chart-container">
+            <p>Tramo edad </p>
+
+          <div class="chart-percentage">0-14: 18.1% | 15-64: 65.7% | 65+: 16.1%</div>
+          <canvas id="edadChart"></canvas>
+
+        </div>
+    
+        <div class="chart-container" style="max-width: 100%;">
+            <p>Piramide poblacional</p>
+
+          <canvas id="piramideChart" style="height: 100%; max-height: 600px;"></canvas>
+
+        </div>
+      </section>
+    
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script>
+        // Sexo
+        new Chart(document.getElementById('sexoChart'), {
+          type: 'doughnut',
+          data: {
+            labels: ['Hombres', 'Mujeres'],
+            datasets: [{
+              data: [8133, 8743],
+              backgroundColor: ['#4fc3f7', '#f06292']
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                position: 'bottom',
+                labels: { color: '#333' }
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(ctx) {
+                    let total = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                    let value = ctx.raw;
+                    let percentage = (value / total * 100).toFixed(1);
+                    return `${ctx.label}: ${value} (${percentage}%)`;
+                  }
+                }
+              }
+            }
+          }
+        });
+    
+        // Tramos de edad
+        new Chart(document.getElementById('edadChart'), {
+          type: 'doughnut',
+          data: {
+            labels: ['0 a 14 años', '15 a 64 años', '65 años o más'],
+            datasets: [{
+              data: [3060, 11093, 2723],
+              backgroundColor: ['#ffca28', '#4caf50', '#8d6e63']
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                position: 'bottom',
+                labels: { color: '#333' }
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(ctx) {
+                    let total = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                    let value = ctx.raw;
+                    let percentage = (value / total * 100).toFixed(1);
+                    return `${ctx.label}: ${value} (${percentage}%)`;
+                  }
+                }
+              }
+            }
+          }
+        });
+    
+        // Pirámide poblacional
+        const edades = [
+          '85+', '80-84', '75-79', '70-74', '65-69', '60-64',
+          '55-59', '50-54', '45-49', '40-44', '35-39', '30-34',
+          '25-29', '20-24', '15-19', '10-14', '05-09', '00-04'
+        ];
+        const hombres = [124, 135, 229, 334, 419, 521, 563, 518, 483, 479, 513, 545, 542, 569, 626, 600, 550, 383];
+        const mujeres = [203, 212, 259, 345, 463, 598, 632, 568, 521, 580, 580, 615, 577, 535, 528, 605, 530, 392];
+    
+        new Chart(document.getElementById('piramideChart'), {
+          type: 'bar',
+          data: {
+            labels: edades,
+            datasets: [
+              {
+                label: 'Hombres',
+                data: hombres.map(v => -v),
+                backgroundColor: '#4fc3f7'
+              },
+              {
+                label: 'Mujeres',
+                data: mujeres,
+                backgroundColor: '#f06292'
+              }
+            ]
+          },
+          options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              x: {
+                stacked: true,
+                ticks: {
+                  color: '#333',
+                  callback: value => Math.abs(value)
+                },
+                grid: { color: '#ccc' }
+              },
+              y: {
+                stacked: true,
+                ticks: { color: '#333' },
+                grid: { color: '#ccc' }
+              }
+            },
+            plugins: {
+              legend: {
+                position: 'bottom',
+                labels: { color: '#333' }
+              },
+              tooltip: {
+                callbacks: {
+                  label: ctx => `${ctx.dataset.label}: ${Math.abs(ctx.raw).toLocaleString()}`
+                }
+              }
+            }
+          }
+        });
+      </script>
+
+    
     <script>
         // Variables para el carrusel
         const track = document.querySelector('.carousel-track');
