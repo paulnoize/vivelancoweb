@@ -534,7 +534,7 @@
         <div class="carousel">
             <div class="carousel-track">
                 <div class="carousel-slide">
-                    <img src="img/DJI_0279.jpg" alt="Lanco Naturaleza" class="carousel-img">
+                    <img src="img/DJI_0279.JPG" alt="Lanco Naturaleza" class="carousel-img">
                 </div>
                 <div class="carousel-slide">
                     <img src="img/DJI_0007.JPG" alt="Lanco Cultura" class="carousel-img">
@@ -643,8 +643,78 @@
     </section>
 
 
+<!-- Leaflet CSS y JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
-    <!-- Sección de Mapa Interactivo -->
+
+    
+
+    <script>
+        // Variables para el carrusel
+        const track = document.querySelector('.carousel-track');
+        const indicators = document.querySelectorAll('.carousel-indicator');
+        let currentIndex = 0;
+        
+        // Cambiar slide según el índice
+        function goToSlide(index) {
+            currentIndex = index;
+            track.style.transform = `translateX(-${index * 25}%)`;
+            
+            // Actualizar indicadores
+            indicators.forEach((indicator, i) => {
+                indicator.classList.toggle('active', i === index);
+            });
+        }
+        
+        // Configurar eventos para los indicadores
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                goToSlide(index);
+                resetInterval();
+            });
+        });
+        
+        // Avanzar al siguiente slide
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % 4;
+            goToSlide(currentIndex);
+        }
+        
+        // Iniciar intervalo para cambio automático
+        let slideInterval = setInterval(nextSlide, 5000);
+        
+        // Reiniciar intervalo cuando el usuario interactúa con el carrusel
+        function resetInterval() {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 5000);
+        }
+        
+        // Menú móvil
+        const menuToggle = document.querySelector('.menu-toggle');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const closeBtn = document.querySelector('.mobile-menu-close');
+        
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.add('active');
+        });
+        
+        closeBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+        });
+        
+        // Navbar efecto al hacer scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 20) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+
+<!-- Sección de Mapa Interactivo Corregido -->
 <section class="map-section">
     <div class="map-container">
         <h2>Explora Lanco en el Mapa</h2>
@@ -683,7 +753,7 @@
                 </button>
             </div>
             <div class="search-box">
-                <input type="text" placeholder="Buscar lugares...">
+                <input type="text" placeholder="Buscar lugares..." id="map-search">
                 <button>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="11" cy="11" r="8"></circle>
@@ -695,24 +765,33 @@
         
         <div class="map-content">
             <div class="map-wrapper">
-                <!-- Este div contendrá el mapa de Leaflet -->
                 <div id="lanco-map"></div>
             </div>
             <div class="places-list">
                 <h3>Lugares destacados</h3>
-                <div class="list-container">
-                    <!-- Los lugares se cargarán dinámicamente aquí -->
-                </div>
+                <div class="list-container" id="places-container"></div>
             </div>
         </div>
     </div>
 </section>
 
+<!-- Sección de Lugares Recomendados -->
+<section class="recommended-section">
+    <div class="section-header">
+        <h2>Recomendados en Lanco</h2>
+        <p>Los lugares mejor valorados por nuestros visitantes</p>
+    </div>
+    
+    <div class="recommended-grid" id="recommended-container">
+        <!-- Los lugares recomendados se cargarán aquí -->
+    </div>
+</section>
+
 <style>
-    /* Estilos para la sección del mapa */
+    /* Estilos para la sección del mapa - Corregidos */
     .map-section {
-        padding: 2rem 1rem;
-        background-color: #f8f9fa;
+        padding: 3rem 1rem;
+        background-color: var(--light);
     }
     
     .map-container {
@@ -812,25 +891,28 @@
     .map-wrapper {
         height: 400px;
         width: 100%;
+        position: relative;
     }
     
     #lanco-map {
         height: 100%;
         width: 100%;
+        min-height: 400px;
     }
     
     .places-list {
-        padding: 1rem;
+        padding: 1.5rem;
     }
     
     .places-list h3 {
-        margin-bottom: 1rem;
+        margin-bottom: 1.5rem;
         color: var(--primary);
+        font-size: 1.25rem;
     }
     
     .list-container {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
         gap: 1rem;
     }
     
@@ -843,11 +925,18 @@
         box-shadow: var(--shadow-sm);
         transition: all 0.3s ease;
         cursor: pointer;
+        border: 1px solid rgba(0, 0, 0, 0.05);
     }
     
     .place-card:hover {
         transform: translateY(-3px);
         box-shadow: var(--shadow-md);
+        border-color: rgba(20, 84, 52, 0.2);
+    }
+    
+    .place-card.active {
+        background-color: rgba(20, 84, 52, 0.05);
+        border-color: var(--primary);
     }
     
     .place-image {
@@ -855,39 +944,45 @@
         height: 80px;
         border-radius: var(--radius-sm);
         object-fit: cover;
+        flex-shrink: 0;
     }
     
     .place-info {
         flex: 1;
+        min-width: 0;
     }
     
     .place-name {
         font-weight: 600;
         margin-bottom: 0.25rem;
         color: var(--dark);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     
     .place-category {
         display: inline-block;
         font-size: 0.75rem;
-        padding: 0.25rem 0.5rem;
+        padding: 0.25rem 0.75rem;
         border-radius: 50px;
         margin-bottom: 0.5rem;
+        font-weight: 500;
     }
     
     .place-category.food {
-        background-color: #e3f2fd;
-        color: #1976d2;
+        background-color: rgba(76, 175, 80, 0.1);
+        color: #388e3c;
     }
     
     .place-category.drinks {
-        background-color: #f3e5f5;
-        color: #8e24aa;
+        background-color: rgba(156, 39, 176, 0.1);
+        color: #7b1fa2;
     }
     
     .place-category.tourism {
-        background-color: #e8f5e9;
-        color: #388e3c;
+        background-color: rgba(33, 150, 243, 0.1);
+        color: #1976d2;
     }
     
     .place-distance {
@@ -896,6 +991,147 @@
         display: flex;
         align-items: center;
         gap: 0.25rem;
+    }
+    
+    /* Estilos para la sección de recomendados */
+    .recommended-section {
+        padding: 3rem 1rem;
+        background-color: white;
+    }
+    
+    .section-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    
+    .section-header h2 {
+        font-size: 2rem;
+        color: var(--primary);
+        margin-bottom: 0.5rem;
+    }
+    
+    .section-header p {
+        color: var(--text);
+        opacity: 0.8;
+        font-size: 1.1rem;
+    }
+    
+    .recommended-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .recommended-card {
+        background: white;
+        border-radius: var(--radius-md);
+        overflow: hidden;
+        box-shadow: var(--shadow-sm);
+        transition: all 0.3s ease;
+    }
+    
+    .recommended-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-md);
+    }
+    
+    .recommended-image {
+        position: relative;
+        height: 180px;
+        overflow: hidden;
+    }
+    
+    .recommended-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    
+    .recommended-card:hover .recommended-image img {
+        transform: scale(1.05);
+    }
+    
+    .recommended-badge {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        padding: 0.25rem 0.75rem;
+        border-radius: 50px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: white;
+        background-color: var(--accent);
+    }
+    
+    .recommended-rating {
+        position: absolute;
+        bottom: 1rem;
+        right: 1rem;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 0.25rem 0.75rem;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--dark);
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+    
+    .recommended-content {
+        padding: 1.5rem;
+    }
+    
+    .recommended-content h3 {
+        font-size: 1.25rem;
+        color: var(--dark);
+        margin-bottom: 0.75rem;
+    }
+    
+    .recommended-description {
+        color: var(--text);
+        opacity: 0.8;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin-bottom: 1.5rem;
+    }
+    
+    .recommended-meta {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .recommended-meta-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.85rem;
+        color: var(--text);
+        opacity: 0.8;
+    }
+    
+    .recommended-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        width: 100%;
+        padding: 0.75rem;
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: var(--radius-sm);
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .recommended-btn:hover {
+        background: var(--primary-light);
     }
     
     /* Estilos para móviles */
@@ -914,11 +1150,11 @@
             flex-direction: column;
         }
         
-        .map-wrapper {
-            height: 300px;
+        .list-container {
+            grid-template-columns: 1fr;
         }
         
-        .list-container {
+        .recommended-grid {
             grid-template-columns: 1fr;
         }
     }
@@ -935,18 +1171,13 @@
         .places-list {
             flex: 1;
             min-width: 350px;
-            padding: 1.5rem;
         }
     }
 </style>
 
-<!-- Leaflet CSS y JS -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-
 <script>
     // Datos de ejemplo para los lugares
-    const places = [
+    const placesData = [
         {
             id: 1,
             name: "Restaurante Tierra Verde",
@@ -954,8 +1185,13 @@
             lat: -39.4524,
             lng: -72.7921,
             distance: "0.5 km",
-            description: "Cocina tradicional con ingredientes locales",
-            image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+            description: "Cocina tradicional con ingredientes locales, especializado en platos mapuches y productos de la región.",
+            image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+            rating: 4.5,
+            reviews: 128,
+            featured: true,
+            priceRange: "$$",
+            timeNeeded: "1-2 horas"
         },
         {
             id: 2,
@@ -964,8 +1200,12 @@
             lat: -39.4582,
             lng: -72.8013,
             distance: "2.3 km",
-            description: "Hermosa cascada en medio del bosque",
-            image: "https://images.unsplash.com/photo-1509316785289-025f5b846b35?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+            description: "Impresionante caída de agua de 35 metros en medio del bosque nativo, con senderos bien señalizados y miradores.",
+            image: "https://images.unsplash.com/photo-1509316785289-025f5b846b35?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+            rating: 4.8,
+            reviews: 245,
+            featured: true,
+            timeNeeded: "2-3 horas"
         },
         {
             id: 3,
@@ -974,8 +1214,13 @@
             lat: -39.4508,
             lng: -72.7895,
             distance: "0.2 km",
-            description: "Bar con cervezas artesanales locales",
-            image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+            description: "Bar con cervezas artesanales locales y ambiente acogedor, ideal para disfrutar de la vida nocturna en Lanco.",
+            image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+            rating: 4.3,
+            reviews: 87,
+            featured: true,
+            priceRange: "$$",
+            timeNeeded: "1-2 horas"
         },
         {
             id: 4,
@@ -984,8 +1229,12 @@
             lat: -39.4512,
             lng: -72.7901,
             distance: "0.3 km",
-            description: "Artesanías y productos locales",
-            image: "https://images.unsplash.com/photo-1581349485608-9469926a8e5e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+            description: "Espacio que reúne a artesanos locales donde puedes encontrar tejidos, tallados y productos típicos de la zona.",
+            image: "https://images.unsplash.com/photo-1581349485608-9469926a8e5e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+            rating: 4.6,
+            reviews: 112,
+            featured: false,
+            timeNeeded: "30-60 min"
         },
         {
             id: 5,
@@ -994,8 +1243,13 @@
             lat: -39.4537,
             lng: -72.7952,
             distance: "1.1 km",
-            description: "Café con vista al bosque",
-            image: "https://images.unsplash.com/photo-1445116572660-236099ec97a0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+            description: "Acogedor café con vista al bosque, ideal para desayunos y meriendas con productos locales.",
+            image: "https://images.unsplash.com/photo-1445116572660-236099ec97a0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+            rating: 4.4,
+            reviews: 76,
+            featured: false,
+            priceRange: "$",
+            timeNeeded: "30-60 min"
         },
         {
             id: 6,
@@ -1004,10 +1258,19 @@
             lat: -39.4569,
             lng: -72.7864,
             distance: "1.5 km",
-            description: "Vista panorámica de la ciudad",
-            image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+            description: "Vista panorámica de la ciudad y sus alrededores, perfecto para fotografías al atardecer.",
+            image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+            rating: 4.2,
+            reviews: 53,
+            featured: false,
+            timeNeeded: "30-45 min"
         }
     ];
+
+    // Variables globales
+    let map;
+    let markers = [];
+    const featuredPlaces = placesData.filter(place => place.featured);
 
     // Inicializar el mapa
     function initMap() {
@@ -1015,17 +1278,28 @@
         const lancoCoords = [-39.4525, -72.7925];
         
         // Crear el mapa
-        const map = L.map('lanco-map').setView(lancoCoords, 14);
+        map = L.map('lanco-map').setView(lancoCoords, 14);
         
         // Añadir capa de OpenStreetMap
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
         
-        // Añadir marcadores para cada lugar
-        places.forEach(place => {
-            const marker = L.marker([place.lat, place.lng]).addTo(map);
-            
+        // Crear marcadores
+        createMarkers();
+        
+        // Cargar lugares iniciales
+        loadPlaces();
+        loadRecommendedPlaces();
+    }
+    
+    // Crear marcadores para todos los lugares
+    function createMarkers() {
+        // Limpiar marcadores existentes
+        markers.forEach(marker => map.removeLayer(marker));
+        markers = [];
+        
+        placesData.forEach(place => {
             // Personalizar icono según categoría
             let iconColor;
             switch(place.category) {
@@ -1038,12 +1312,13 @@
             // Crear icono personalizado
             const customIcon = L.divIcon({
                 className: 'custom-marker',
-                html: `<div style="background-color: ${iconColor}"></div>`,
-                iconSize: [20, 20],
-                iconAnchor: [10, 10]
+                html: `<div style="background-color: ${iconColor}; width: 20px; height: 20px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.2);"></div>`,
+                iconSize: [24, 24],
+                iconAnchor: [12, 12]
             });
             
-            marker.setIcon(customIcon);
+            // Crear marcador
+            const marker = L.marker([place.lat, place.lng], { icon: customIcon }).addTo(map);
             
             // Añadir popup al marcador
             marker.bindPopup(`
@@ -1054,24 +1329,25 @@
                 </div>
             `);
             
+            // Almacenar referencia al marcador
+            markers.push(marker);
+            
             // Evento click para centrar el mapa y abrir popup
             marker.on('click', function() {
-                map.setView([place.lat, place.lng], 15);
+                map.setView([place.lat, place.lng], 16);
                 highlightPlaceCard(place.id);
             });
         });
-        
-        return map;
     }
     
     // Cargar lugares en la lista
     function loadPlaces(category = 'all') {
-        const listContainer = document.querySelector('.list-container');
+        const listContainer = document.getElementById('places-container');
         listContainer.innerHTML = '';
         
         const filteredPlaces = category === 'all' 
-            ? places 
-            : places.filter(place => place.category === category);
+            ? placesData 
+            : placesData.filter(place => place.category === category);
         
         filteredPlaces.forEach(place => {
             const placeCard = document.createElement('div');
@@ -1111,12 +1387,19 @@
             
             placeCard.addEventListener('click', function() {
                 const placeId = parseInt(this.dataset.id);
-                const place = places.find(p => p.id === placeId);
+                const place = placesData.find(p => p.id === placeId);
                 if (place) {
                     // Centrar mapa en el lugar seleccionado
                     map.setView([place.lat, place.lng], 16);
                     
-                    // Abrir popup del marcador (necesitaríamos una referencia a los marcadores)
+                    // Abrir popup del marcador
+                    const marker = markers.find(m => {
+                        const latLng = m.getLatLng();
+                        return latLng.lat === place.lat && latLng.lng === place.lng;
+                    });
+                    if (marker) marker.openPopup();
+                    
+                    // Resaltar tarjeta
                     highlightPlaceCard(placeId);
                 }
             });
@@ -1125,22 +1408,84 @@
         });
     }
     
+    // Cargar lugares recomendados
+    function loadRecommendedPlaces() {
+        const recommendedContainer = document.getElementById('recommended-container');
+        recommendedContainer.innerHTML = '';
+        
+        featuredPlaces.forEach(place => {
+            const recommendedCard = document.createElement('div');
+            recommendedCard.className = 'recommended-card';
+            
+            let categoryText;
+            switch(place.category) {
+                case 'food': categoryText = 'Gastronomía'; break;
+                case 'drinks': categoryText = 'Bares'; break;
+                case 'tourism': categoryText = 'Turismo'; break;
+            }
+            
+            recommendedCard.innerHTML = `
+                <div class="recommended-image">
+                    <img src="${place.image}" alt="${place.name}">
+                    <span class="recommended-badge">Recomendado</span>
+                    <div class="recommended-rating">${place.rating} ★ (${place.reviews})</div>
+                </div>
+                <div class="recommended-content">
+                    <h3>${place.name}</h3>
+                    <p class="recommended-description">${place.description}</p>
+                    <div class="recommended-meta">
+                        <div class="recommended-meta-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                            <span>${place.distance}</span>
+                        </div>
+                        ${place.priceRange ? `
+                        <div class="recommended-meta-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                            </svg>
+                            <span>${place.priceRange}</span>
+                        </div>
+                        ` : ''}
+                        <div class="recommended-meta-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                            <span>${place.timeNeeded}</span>
+                        </div>
+                    </div>
+                    <button class="recommended-btn">
+                        Ver detalles
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14"></path>
+                            <path d="M12 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
+                </div>
+            `;
+            
+            recommendedContainer.appendChild(recommendedCard);
+        });
+    }
+    
     // Resaltar tarjeta de lugar
     function highlightPlaceCard(placeId) {
         document.querySelectorAll('.place-card').forEach(card => {
             if (parseInt(card.dataset.id) === placeId) {
-                card.style.backgroundColor = 'rgba(20, 84, 52, 0.1)';
+                card.classList.add('active');
                 card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             } else {
-                card.style.backgroundColor = '';
+                card.classList.remove('active');
             }
         });
     }
     
     // Inicializar cuando el DOM esté listo
     document.addEventListener('DOMContentLoaded', function() {
-        const map = initMap();
-        loadPlaces();
+        initMap();
         
         // Manejar clicks en botones de categoría
         document.querySelectorAll('.category-btn').forEach(btn => {
@@ -1153,32 +1498,82 @@
         });
         
         // Manejar búsqueda
-        const searchInput = document.querySelector('.search-box input');
-        searchInput.addEventListener('input', function() {
+        document.getElementById('map-search').addEventListener('input', function() {
             const searchTerm = this.value.toLowerCase();
-            const filteredPlaces = places.filter(place => 
-                place.name.toLowerCase().includes(searchTerm) || 
-                place.description.toLowerCase().includes(searchTerm)
-            );
-            
             const activeCategory = document.querySelector('.category-btn.active').dataset.category;
-            loadPlaces(activeCategory);
             
-            if (searchTerm) {
-                document.querySelectorAll('.place-card').forEach(card => {
-                    const placeId = parseInt(card.dataset.id);
-                    const place = places.find(p => p.id === placeId);
-                    if (!place.name.toLowerCase().includes(searchTerm) && 
-                        !place.description.toLowerCase().includes(searchTerm)) {
-                        card.style.display = 'none';
-                    } else {
-                        card.style.display = 'flex';
+            const filteredPlaces = placesData.filter(place => {
+                const matchesCategory = activeCategory === 'all' || place.category === activeCategory;
+                const matchesSearch = place.name.toLowerCase().includes(searchTerm) || 
+                                     place.description.toLowerCase().includes(searchTerm);
+                return matchesCategory && matchesSearch;
+            });
+            
+            // Actualizar lista
+            const listContainer = document.getElementById('places-container');
+            listContainer.innerHTML = '';
+            
+            if (filteredPlaces.length === 0) {
+                listContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #666;">No se encontraron lugares que coincidan con la búsqueda</p>';
+                return;
+            }
+            
+            filteredPlaces.forEach(place => {
+                const placeCard = document.createElement('div');
+                placeCard.className = 'place-card';
+                placeCard.dataset.id = place.id;
+                
+                let categoryClass, categoryText;
+                switch(place.category) {
+                    case 'food': 
+                        categoryClass = 'food';
+                        categoryText = 'Comida';
+                        break;
+                    case 'drinks': 
+                        categoryClass = 'drinks';
+                        categoryText = 'Bares';
+                        break;
+                    case 'tourism': 
+                        categoryClass = 'tourism';
+                        categoryText = 'Turismo';
+                        break;
+                }
+                
+                placeCard.innerHTML = `
+                    <img src="${place.image}" alt="${place.name}" class="place-image">
+                    <div class="place-info">
+                        <h4 class="place-name">${place.name}</h4>
+                        <span class="place-category ${categoryClass}">${categoryText}</span>
+                        <p class="place-distance">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                            ${place.distance}
+                        </p>
+                    </div>
+                `;
+                
+                placeCard.addEventListener('click', function() {
+                    const placeId = parseInt(this.dataset.id);
+                    const place = placesData.find(p => p.id === placeId);
+                    if (place) {
+                        map.setView([place.lat, place.lng], 16);
+                        const marker = markers.find(m => {
+                            const latLng = m.getLatLng();
+                            return latLng.lat === place.lat && latLng.lng === place.lng;
+                        });
+                        if (marker) marker.openPopup();
+                        highlightPlaceCard(placeId);
                     }
                 });
-            }
+                
+                listContainer.appendChild(placeCard);
+            });
         });
     });
 </script>
+
 
 
 <style>
@@ -1708,72 +2103,6 @@
     });
 </script>
     
-
-    
-
-    <script>
-        // Variables para el carrusel
-        const track = document.querySelector('.carousel-track');
-        const indicators = document.querySelectorAll('.carousel-indicator');
-        let currentIndex = 0;
-        
-        // Cambiar slide según el índice
-        function goToSlide(index) {
-            currentIndex = index;
-            track.style.transform = `translateX(-${index * 25}%)`;
-            
-            // Actualizar indicadores
-            indicators.forEach((indicator, i) => {
-                indicator.classList.toggle('active', i === index);
-            });
-        }
-        
-        // Configurar eventos para los indicadores
-        indicators.forEach((indicator, index) => {
-            indicator.addEventListener('click', () => {
-                goToSlide(index);
-                resetInterval();
-            });
-        });
-        
-        // Avanzar al siguiente slide
-        function nextSlide() {
-            currentIndex = (currentIndex + 1) % 4;
-            goToSlide(currentIndex);
-        }
-        
-        // Iniciar intervalo para cambio automático
-        let slideInterval = setInterval(nextSlide, 5000);
-        
-        // Reiniciar intervalo cuando el usuario interactúa con el carrusel
-        function resetInterval() {
-            clearInterval(slideInterval);
-            slideInterval = setInterval(nextSlide, 5000);
-        }
-        
-        // Menú móvil
-        const menuToggle = document.querySelector('.menu-toggle');
-        const mobileMenu = document.querySelector('.mobile-menu');
-        const closeBtn = document.querySelector('.mobile-menu-close');
-        
-        menuToggle.addEventListener('click', () => {
-            mobileMenu.classList.add('active');
-        });
-        
-        closeBtn.addEventListener('click', () => {
-            mobileMenu.classList.remove('active');
-        });
-        
-        // Navbar efecto al hacer scroll
-        window.addEventListener('scroll', () => {
-            const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 20) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-    </script>
 
 
 
